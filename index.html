@@ -3,664 +3,197 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EduGalp — Formação para o Futuro</title>
+<title>EduGalp</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:#F2E8DC;font-family:'Nunito',sans-serif}
+html,body{width:100%;height:100%;overflow:hidden;background:#F8F6F2}
 #cv{position:fixed;inset:0;z-index:0}
-#ui{position:fixed;inset:0;z-index:20;pointer-events:none}
-#fade{position:fixed;inset:0;z-index:15;background:#F2E8DC;opacity:0;pointer-events:none;transition:opacity .65s ease}
 
-/* ── BRAND COLOURS ────────────────────────────────── */
-/* Orange: #FF6B00  |  Light peach: #FBCFB0  |  Cream: #F2E8DC  |  Dark: #1A1A1A */
+/* grain + vignette */
+#grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.018;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#vig{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(200,180,150,.12) 100%)}
 
-/* ── TOP BAR ─────────────────────────────────────── */
-#topbar{
-  position:absolute;top:0;left:0;right:0;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px 44px 0;
-}
-#logo-wrap{display:flex;align-items:center;gap:9px}
-#logo-svg{width:32px;height:32px}
-#logo-galp{font-size:26px;font-weight:900;color:#FF6B00;letter-spacing:-0.5px;line-height:1}
-#logo-sub{font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(100,60,20,0.45);margin-top:2px}
-#slide-info{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(100,60,20,0.35)}
+#ui{position:fixed;inset:0;z-index:30;pointer-events:none;font-family:'DM Sans',sans-serif}
+#fade{position:fixed;inset:0;z-index:20;pointer-events:none;background:#F8F6F2;opacity:0;transition:opacity .65s ease}
 
-/* ── FOOTER ──────────────────────────────────────── */
-#footer{
-  position:absolute;bottom:0;left:0;right:0;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 44px 14px;
-}
-#footer-copy{font-size:9px;color:rgba(100,60,20,0.35);letter-spacing:.5px}
-#footer-pg{font-size:9px;color:rgba(100,60,20,0.35)}
+/* ── TOPBAR ── */
+#topbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:24px 52px;background:linear-gradient(180deg,rgba(248,246,242,.95) 0%,transparent 100%)}
+#gl{display:flex;align-items:center;gap:10px}
+#gl svg{width:30px;height:30px;filter:drop-shadow(0 2px 6px rgba(255,107,0,.3))}
+#gw{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:rgba(30,20,10,.82)}
+#nl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(80,50,20,.35)}
 
-/* ── SLIDE PANEL ─────────────────────────────────── */
-.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .5s ease}
-.slide.active{opacity:1;pointer-events:all}
+#panel{position:absolute;bottom:0;left:0;right:0;padding:0 52px 80px;background:linear-gradient(0deg,rgba(248,246,242,.97) 0%,rgba(248,246,242,.82) 55%,transparent 100%);transition:opacity .5s}
+#panel.off{opacity:0;pointer-events:none}
 
-/* shared title */
-.s-title{
-  position:absolute;top:54px;left:44px;
-  font-size:clamp(28px,3.8vw,48px);
-  font-weight:900;color:#FF6B00;
-  line-height:1.05;
-}
-.s-subtitle{
-  position:absolute;top:120px;left:44px;
-  font-size:13px;font-weight:700;color:#555;
-}
+#ey{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#FF6B00;font-weight:500;margin-bottom:12px;opacity:0;transition:opacity .5s .08s}
+#ey.in{opacity:.85}
+#ti{font-family:'Bebas Neue',sans-serif;font-size:clamp(46px,6vw,82px);color:#111;line-height:.9;letter-spacing:.5px;margin-bottom:16px;max-width:700px;opacity:0;transform:translateY(16px);transition:opacity .55s .12s,transform .55s .12s}
+#ti.in{opacity:1;transform:translateY(0)}
+#su{font-size:15px;line-height:1.78;color:rgba(30,20,10,.48);font-weight:300;max-width:520px;margin-bottom:26px;opacity:0;transition:opacity .55s .22s;min-height:28px}
+#su.in{opacity:1}
+#slot{opacity:0;transform:translateY(10px);transition:opacity .5s .28s,transform .5s .28s;margin-bottom:28px}
+#slot.in{opacity:1;transform:translateY(0)}
 
-/* ── SLIDE 0: COVER ──────────────────────────────── */
-#s0 .cover-title{
-  position:absolute;bottom:180px;left:44px;
-  font-size:clamp(32px,4.5vw,58px);font-weight:900;color:#FF6B00;line-height:1;
-}
-#s0 .cover-sub{
-  position:absolute;bottom:140px;left:44px;
-  font-size:16px;font-weight:400;color:#555;
-}
-#s0 .cover-badge{
-  position:absolute;bottom:72px;left:44px;
-  display:flex;align-items:center;gap:6px;
-  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
-  color:rgba(100,50,10,0.5);
-}
+/* data pills */
+.dprow{display:flex;gap:3px}
+.dp{padding:14px 22px;background:rgba(255,255,255,.85);border:1px solid rgba(200,160,100,.2);border-top:2px solid rgba(255,107,0,.4);min-width:110px;transition:all .3s;cursor:default;backdrop-filter:blur(10px)}
+.dp:hover{background:#fff;border-top-color:#FF6B00;box-shadow:0 4px 20px rgba(255,107,0,.1)}
+.dn{font-family:'Bebas Neue',sans-serif;font-size:44px;color:#FF6B00;line-height:1}
+.dl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(30,20,10,.4);margin-top:4px}
 
-/* ── SLIDE 1: CONTEXTUALIZAÇÃO ───────────────────── */
-.problem-box{
-  position:absolute;
-  display:flex;align-items:center;justify-content:center;
-  text-align:center;
-}
-.arrow-shape{
-  display:flex;align-items:center;justify-content:center;
-  text-align:center;font-size:12px;font-weight:700;line-height:1.4;
-  padding:18px 22px;
-}
-/* pie chart CSS */
-#pie-wrap{position:absolute;top:130px;right:44px;text-align:center}
-#pie-title{font-size:12px;font-weight:700;color:#555;margin-bottom:12px;text-align:center}
-.pie-svg{width:200px;height:200px}
-.pie-legend{display:flex;flex-direction:column;gap:5px;margin-top:10px;align-items:flex-start}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:#555}
-.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+/* theme grid */
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:520px}
+.ti2{padding:14px 18px;background:rgba(255,255,255,.7);border-left:2px solid rgba(255,107,0,.3);transition:all .3s;cursor:default}
+.ti2:hover{background:#fff;border-left-color:#FF6B00;padding-left:22px;box-shadow:0 2px 12px rgba(255,107,0,.08)}
+.tn2{font-size:9px;letter-spacing:3px;color:#FF6B00;opacity:.75;margin-bottom:4px}
+.tt2{font-size:13px;font-weight:500;color:rgba(20,10,5,.72)}
 
-/* ── SLIDE 2: OBJETIVOS ──────────────────────────── */
-.obj-card{
-  position:absolute;text-align:center;
-}
-.obj-icon-wrap{
-  width:180px;height:180px;
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 14px;
-}
-.obj-text{font-size:13px;font-weight:600;color:#444;line-height:1.5}
-.obj-bullets{text-align:left;font-size:11.5px;color:#555;line-height:1.8;margin-top:6px;padding-left:16px}
+/* phase list */
+.plist{display:flex;flex-direction:column;gap:2px;max-width:500px}
+.pi{display:flex;align-items:center;gap:14px;padding:12px 16px;background:rgba(255,255,255,.65);border-left:2px solid rgba(255,107,0,.22);transition:all .3s;cursor:default}
+.pi:hover{background:#fff;border-left-color:#FF6B00;padding-left:20px;box-shadow:0 2px 10px rgba(255,107,0,.08)}
+.pn{font-size:8px;letter-spacing:2px;color:rgba(255,107,0,.65);width:22px;flex-shrink:0}
+.pt{font-size:13px;color:rgba(20,10,5,.68);font-weight:400}
 
-/* ── SLIDE 3: IMPACTO ────────────────────────────── */
-.impacto-bullets{position:absolute;top:145px;left:44px;list-style:none;display:flex;flex-direction:column;gap:12px}
-.impacto-bullets li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#444;line-height:1.45;max-width:420px}
-.impacto-bullets li::before{content:'•';color:#FF6B00;font-size:18px;flex-shrink:0;margin-top:-1px}
-.chart-label{position:absolute;top:145px;left:44px;font-size:11px;font-weight:800;color:#FF6B00;max-width:420px;line-height:1.4}
-/* mini bar chart */
-#bar-chart{position:absolute;bottom:80px;left:44px;width:420px}
+/* result list */
+.rlist{display:flex;flex-direction:column;gap:2px;max-width:500px}
+.ri{padding:14px 18px;background:rgba(255,255,255,.65);border-left:2px solid rgba(255,107,0,.22);transition:all .3s;cursor:default}
+.ri:hover{background:#fff;border-left-color:#FF6B00;box-shadow:0 2px 10px rgba(255,107,0,.08)}
+.rt{font-size:13px;font-weight:600;color:rgba(20,10,5,.78);margin-bottom:3px}
+.rd{font-size:11px;color:rgba(20,10,5,.38);line-height:1.6}
 
-/* ── SLIDE 4: METODOLOGIA ────────────────────────── */
-.fases-row{
-  position:absolute;top:155px;left:0;right:0;
-  display:flex;align-items:flex-start;justify-content:center;gap:0;
-  padding:0 30px;
-}
-.fase-col{display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;min-width:0}
-.fase-circle{
-  width:80px;height:80px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:800;color:#fff;margin-bottom:10px;
-  position:relative;z-index:1;
-}
-.fase-diamond{
-  width:75px;height:75px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:800;color:#FF6B00;margin-bottom:10px;
-  position:relative;z-index:1;
-}
-.fase-diamond-inner{
-  width:65px;height:65px;
-  background:#FBCFB0;
-  transform:rotate(45deg);
-  position:absolute;border-radius:6px;
-}
-.fase-diamond-text{position:relative;z-index:1;transform:none}
-.fase-check{
-  width:28px;height:28px;border-radius:50%;background:#FF6B00;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;color:#fff;margin-bottom:10px;
-}
-.fase-desc{font-size:11px;color:#555;font-weight:600;line-height:1.4;max-width:115px;padding:0 4px}
-.fase-connector{flex:0 0 24px;height:3px;background:#FF6B00;align-self:center;margin-top:-52px;opacity:.3}
-.fases-bg{
-  position:absolute;top:190px;left:30px;right:30px;height:120px;
-  background:#F5E8D8;border-radius:16px;z-index:0;
-}
+/* impacto */
+.impacto-item{display:flex;align-items:flex-start;gap:10px;font-size:15px;color:rgba(20,10,5,.62);line-height:1.55;margin-bottom:14px}
+.impacto-item::before{content:'—';color:#FF6B00;flex-shrink:0;margin-top:1px}
 
-/* ── SLIDE 5: METAS ──────────────────────────────── */
-.metas-row{
-  position:absolute;top:145px;left:0;right:0;
-  display:flex;align-items:center;justify-content:center;gap:20px;
-  padding:0 44px;
-}
-.meta-item{display:flex;flex-direction:column;align-items:center;gap:8px}
-.meta-shape-circle{
-  width:160px;height:160px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;text-align:center;
-  font-size:20px;font-weight:900;color:#fff;line-height:1.15;padding:16px;
-}
-.meta-shape-diamond{
-  width:155px;height:155px;position:relative;
-  display:flex;align-items:center;justify-content:center;
-}
-.meta-diamond-bg{
-  width:130px;height:130px;
-  background:#FBCFB0;
-  transform:rotate(45deg);
-  position:absolute;border-radius:10px;
-}
-.meta-diamond-text{
-  position:relative;z-index:1;text-align:center;
-  font-size:18px;font-weight:900;color:#FF6B00;line-height:1.2;
-}
-.meta-check{width:36px;height:36px;border-radius:50%;background:#FF6B00;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff}
+/* budget */
+.bwrap{max-width:420px}
+.btot{font-family:'Bebas Neue',sans-serif;font-size:60px;color:#111;letter-spacing:1px;margin-bottom:3px}
+.bsub{font-size:10px;letter-spacing:2px;color:rgba(255,107,0,.55);text-transform:uppercase;margin-bottom:22px}
+.brow{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.bn{font-size:11px;color:rgba(20,10,5,.42);width:130px;flex-shrink:0}
+.bt{flex:1;height:2px;background:rgba(200,160,100,.18);overflow:hidden}
+.bf{height:100%;background:linear-gradient(90deg,#FF4400,#FFAA00);width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+.bv{font-size:11px;color:#FF6B00;width:40px;text-align:right;flex-shrink:0;font-weight:600}
 
-/* ── SLIDE 6: RESULTADOS ─────────────────────────── */
-.result-bullets{position:absolute;top:140px;left:44px;list-style:none;display:flex;flex-direction:column;gap:14px}
-.result-bullets li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#444;max-width:380px;line-height:1.5}
-.result-bullets li::before{content:'•';color:#FF6B00;font-size:20px;flex-shrink:0;margin-top:-2px}
-/* growth diagram */
-#growth-diagram{position:absolute;top:130px;right:44px;width:400px}
-.growth-year{display:flex;flex-direction:row;align-items:center;gap:10px;margin-bottom:10px}
-.growth-box{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border-radius:8px;text-align:center;padding:10px 16px;font-weight:800;
-}
-.quote-box{
-  position:absolute;bottom:68px;left:44px;right:44px;
-  border:1.5px solid rgba(255,107,0,0.35);
-  border-radius:4px;padding:12px 20px;
-  font-size:12px;font-style:italic;color:#555;text-align:center;line-height:1.5;
-}
+/* metas */
+.mrow{display:flex;gap:4px}
+.mc{padding:20px 26px;background:rgba(255,255,255,.8);border:1px solid rgba(200,160,100,.18);border-top:2px solid rgba(255,107,0,.38);text-align:center;min-width:120px;transition:all .3s;cursor:default}
+.mc:hover{background:#fff;border-top-color:#FF6B00;transform:translateY(-3px);box-shadow:0 6px 20px rgba(255,107,0,.12)}
+.mn{font-family:'Bebas Neue',sans-serif;font-size:52px;color:#FF6B00;line-height:1}
+.ml{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(20,10,5,.38);margin-top:5px;line-height:1.4}
 
-/* ── SLIDE 7: APP QR ─────────────────────────────── */
-.qr-title{position:absolute;top:54px;left:0;right:0;text-align:center;font-size:clamp(20px,2.8vw,32px);font-weight:700;color:#555}
-.qr-title span{color:#FF6B00;font-weight:900}
-.qr-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#FF6B00;padding:24px;border-radius:12px;display:flex;flex-direction:column;align-items:center}
+/* chart bars */
+.cbar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.cbar-lbl{font-size:11px;color:rgba(20,10,5,.45);width:90px;flex-shrink:0;text-align:right}
+.cbar-track{flex:1;height:4px;background:rgba(200,160,100,.15);overflow:hidden;border-radius:2px}
+.cbar-fill{height:100%;border-radius:2px}
+.cbar-val{font-size:11px;color:rgba(20,10,5,.55);width:36px;text-align:left;flex-shrink:0}
 
-/* ── SLIDE 8: ORÇAMENTO ──────────────────────────── */
-.orc-donut{position:absolute;top:130px;left:44px}
-.orc-table{position:absolute;top:130px;right:44px;width:480px}
-.orc-table table{width:100%;border-collapse:collapse;font-size:12px}
-.orc-table th{padding:10px 14px;font-weight:800;color:#FF6B00;border-bottom:2px solid #FF6B00;text-align:left}
-.orc-table th:last-child,.orc-table td:last-child{text-align:right}
-.orc-table td{padding:9px 14px;color:#444;border-bottom:1px solid rgba(200,160,120,0.2)}
-.orc-table tr:nth-child(even) td{background:rgba(251,207,176,0.2)}
-.orc-table tr.hl td{color:#FF6B00;font-weight:800}
+/* CTA */
+.cta{display:inline-flex;align-items:center;gap:9px;padding:12px 26px;background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.32);color:rgba(150,80,10,.8);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;pointer-events:all;transition:all .3s;font-family:'DM Sans',sans-serif}
+.cta:hover{background:#FF6B00;border-color:#FF6B00;color:#fff;box-shadow:0 4px 20px rgba(255,107,0,.25)}
+.ca{opacity:.4;transition:all .3s}.cta:hover .ca{opacity:1;transform:translateX(4px)}
 
-/* ── NAV ─────────────────────────────────────────── */
-#nav{
-  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
-  display:flex;align-items:center;gap:10px;pointer-events:all;
-}
-.ndot{width:7px;height:7px;border-radius:50%;background:rgba(200,140,80,0.25);cursor:pointer;transition:all .3s}
-.ndot.on{background:#FF6B00;transform:scale(1.5)}
-.narr{
-  width:30px;height:30px;border-radius:50%;
-  border:1.5px solid rgba(200,140,80,0.3);
-  background:rgba(255,255,255,0.5);
-  color:rgba(150,80,20,0.6);cursor:pointer;font-size:12px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .25s;
-}
-.narr:hover{background:#FF6B00;border-color:#FF6B00;color:#fff}
-.narr:disabled{opacity:.15;pointer-events:none}
-#prog{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(200,140,80,0.15)}
-#pfill{height:100%;background:#FF6B00;transition:width .55s ease}
+/* NAV */
+#bnav{position:absolute;bottom:28px;right:52px;display:flex;align-items:center;gap:9px}
+.nd{width:6px;height:6px;border-radius:50%;background:rgba(180,120,60,.2);cursor:pointer;pointer-events:all;transition:all .3s}
+.nd.on{background:#FF6B00;box-shadow:0 0 6px rgba(255,107,0,.4)}
+.na{width:30px;height:30px;border-radius:50%;border:1px solid rgba(180,120,60,.2);background:rgba(255,255,255,.6);color:rgba(120,70,20,.45);cursor:pointer;font-size:11px;transition:all .22s;display:flex;align-items:center;justify-content:center;pointer-events:all}
+.na:hover{border-color:rgba(255,107,0,.5);color:#FF6B00;background:#fff}
+.na:disabled{opacity:.15;pointer-events:none}
+#pg{position:absolute;bottom:0;left:0;right:0;height:1.5px;background:rgba(200,150,80,.12)}
+#pf{height:100%;background:#FF6B00;transition:width .55s ease;opacity:.65}
 </style>
 </head>
 <body>
 <canvas id="cv"></canvas>
+<div id="grain"></div>
+<div id="vig"></div>
 <div id="fade"></div>
 
 <div id="ui">
-
-  <!-- TOP BAR -->
+  <!-- TOPBAR -->
   <div id="topbar">
-    <div id="logo-wrap">
-      <svg id="logo-svg" viewBox="0 0 100 100" fill="none">
-        <circle cx="50" cy="50" r="48" fill="#FF6B00"/>
-        <path d="M68 50H52v10h8.5C58 65.5 54.4 68 50 68c-9.9 0-18-8.1-18-18s8.1-18 18-18c4.6 0 8.8 1.8 11.9 4.7l7.1-7.1C64.6 25.4 57.7 22 50 22c-15.5 0-28 12.5-28 28s12.5 28 28 28c15.5 0 28-12.5 28-28z" fill="white"/>
-      </svg>
-      <div>
-        <div id="logo-galp">galp</div>
-        <div id="logo-sub">edugalp</div>
-      </div>
+    <div id="gl">
+      <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="48" fill="#FF6B00"/><path d="M68 50H52v10h8.5C58 65.5 54.4 68 50 68c-9.9 0-18-8.1-18-18s8.1-18 18-18c4.6 0 8.8 1.8 11.9 4.7l7.1-7.1C64.6 25.4 57.7 22 50 22c-15.5 0-28 12.5-28 28s12.5 28 28 28c15.5 0 28-12.5 28-28z" fill="white"/></svg>
+      <span id="gw">galp</span>
     </div>
-    <div id="slide-info">©2025 Galp | Projecto EduGalp</div>
+    <div id="nl">EduGalp · Moçambique · 2025</div>
   </div>
 
-  <!-- ── SLIDE 0: COVER ── -->
-  <div class="slide active" id="s0">
-    <!-- 3D canvas shows globe/photo on right, text on left -->
-    <div class="cover-title">EduGalp:<br>Formação para<br>o Futuro</div>
-    <div class="cover-sub">Moçambique · 2025</div>
-    <div class="cover-badge">
-      <div style="width:20px;height:2px;background:#FF6B00;border-radius:1px"></div>
-      Galp Energia · Educação para a Sustentabilidade
-    </div>
-  </div>
-
-  <!-- ── SLIDE 1: CONTEXTUALIZAÇÃO ── -->
-  <div class="slide" id="s1">
-    <div class="s-title">Contextualização</div>
-    <!-- left: arrow shapes (rendered via CSS/SVG) -->
-    <div style="position:absolute;top:130px;left:44px;display:flex;align-items:center;gap:0">
-      <!-- problem arrow left-pointing -->
-      <div style="position:relative;width:210px;height:140px;display:flex;align-items:center">
-        <svg width="210" height="140" style="position:absolute">
-          <polygon points="40,70 0,10 210,10 210,130 0,130" fill="none" stroke="#FF6B00" stroke-width="3" stroke-linejoin="round"/>
-        </svg>
-        <div style="position:relative;z-index:1;padding:16px 16px 16px 48px;font-size:11px;font-weight:700;color:#333;line-height:1.5">
-          <span style="color:#FF6B00;font-weight:900">Problema</span> : 65%<br>dos estudantes<br>consideram as<br>gasolineiras<br>altamente poluentes
-        </div>
-      </div>
-      <!-- opportunity arrow right-pointing -->
-      <div style="position:relative;width:220px;height:140px;display:flex;align-items:center;margin-left:-2px">
-        <svg width="220" height="140" style="position:absolute">
-          <polygon points="0,10 180,10 220,70 180,130 0,130" fill="#FF6B00" opacity="0.92"/>
-        </svg>
-        <div style="position:relative;z-index:1;padding:16px 44px 16px 20px;font-size:11px;font-weight:700;color:#fff;line-height:1.5;text-align:center">
-          <span style="font-weight:900">Oportunidade</span> para a<br><span style="font-weight:900">Galp</span> se posicionar<br>como líder a nível de<br>sustentabilidade entre<br>as gasolineiras
-        </div>
-      </div>
-    </div>
-    <!-- right: pie chart -->
-    <div id="pie-wrap">
-      <div id="pie-title">Impacto ambiental das<br>gasolineiras em Moçambique</div>
-      <svg class="pie-svg" viewBox="0 0 200 200">
-        <!-- 65% poluentes (orange), 20% sustentáveis (dark orange), 15% não sabem (gray) -->
-        <!-- 65% = 234deg, 20% = 72deg, 15% = 54deg -->
-        <circle cx="100" cy="100" r="70" fill="none" stroke="#FBCFB0" stroke-width="140" stroke-dasharray="220.4 339" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
-        <circle cx="100" cy="100" r="70" fill="none" stroke="#FF6B00" stroke-width="140" stroke-dasharray="87.96 471.24" stroke-dashoffset="-220.4" transform="rotate(-90 100 100)"/>
-        <circle cx="100" cy="100" r="70" fill="none" stroke="#CCC" stroke-width="140" stroke-dasharray="65.97 493.23" stroke-dashoffset="-308.36" transform="rotate(-90 100 100)"/>
-        <text x="100" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#666">65%</text>
-        <text x="100" y="106" text-anchor="middle" font-size="9" fill="#888">Poluentes</text>
-        <!-- labels -->
-        <text x="38" y="52" font-size="10" font-weight="700" fill="#888">15%</text>
-        <text x="148" y="150" font-size="10" font-weight="700" fill="#FF7700">20%</text>
-      </svg>
-      <div class="pie-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#FBCFB0"></div>Poluentes (65%)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#FF6B00"></div>Sustentáveis (20%)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#CCC"></div>Não sabem (15%)</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── SLIDE 2: OBJETIVOS ── -->
-  <div class="slide" id="s2">
-    <div class="s-title">Objetivos</div>
-    <!-- left card: teaching icon + bullets -->
-    <div class="obj-card" style="top:120px;left:44px;width:340px">
-      <div class="obj-icon-wrap">
-        <svg width="160" height="160" viewBox="0 0 160 160">
-          <rect x="8" y="8" width="144" height="144" rx="18" fill="none" stroke="#FF6B00" stroke-width="7"/>
-          <circle cx="58" cy="58" r="20" fill="#FF6B00"/>
-          <rect x="38" y="84" width="40" height="36" rx="6" fill="#FF6B00"/>
-          <polygon points="80,110 148,80 148,148" fill="#FF6B00"/>
-        </svg>
-      </div>
-      <div class="obj-text">Promover a consciencialização dos jovens estudantes sobre temas de sustentabilidade como:</div>
-      <ul class="obj-bullets">
-        <li>Gestão de Resíduos</li>
-        <li>Carvão vs Gás</li>
-        <li>Energias Renováveis</li>
-        <li>Consumo Responsável de água</li>
-      </ul>
-    </div>
-    <!-- right card: chart icon -->
-    <div class="obj-card" style="top:120px;right:44px;width:320px">
-      <div class="obj-icon-wrap">
-        <svg width="160" height="160" viewBox="0 0 160 160">
-          <rect x="8" y="8" width="144" height="144" rx="18" fill="none" stroke="#FF6B00" stroke-width="7"/>
-          <polyline points="24,100 60,55 95,80 135,30" fill="none" stroke="#FF6B00" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="95,80 135,30 148,55" fill="none" stroke="#FF6B00" stroke-width="6" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="obj-text">Mensurar o nível de assimilação dos conteúdos de sustentabilidade</div>
-    </div>
-  </div>
-
-  <!-- ── SLIDE 3: IMPACTO NA BU ── -->
-  <div class="slide" id="s3">
-    <div class="s-title">Impacto na <em>Business Unit</em></div>
-    <ul class="impacto-bullets" style="top:140px">
-      <li>Aumento no consumo de Gás – GPL</li>
-      <li>Galp como líder de mercado em termos de práticas sustentáveis e consciencialização juvenil</li>
-    </ul>
-    <div class="chart-label" style="top:310px;font-size:11px">Agregados familiares, por principal fonte de energia ou combustível<br>para cozinhar em Moçambique</div>
-    <!-- mini bar chart via SVG -->
-    <svg style="position:absolute;bottom:72px;left:44px" width="480" height="160" viewBox="0 0 480 160">
-      <!-- bars: IOF 2019/20 green, IOF 2022 navy -->
-      <!-- Electricidade 0.8/0.9 -->
-      <rect x="10" y="130" width="14" height="20" fill="#4a9a4a" opacity=".8"/>
-      <rect x="26" y="128" width="14" height="22" fill="#1a1a5a" opacity=".8"/>
-      <!-- Gás 3.8/4.6 -->
-      <rect x="68" y="116" width="14" height="34" fill="#4a9a4a" opacity=".8"/>
-      <rect x="84" y="112" width="14" height="38" fill="#1a1a5a" opacity=".8"/>
-      <!-- Petróleo 0/0 -->
-      <rect x="126" y="148" width="14" height="2" fill="#4a9a4a" opacity=".8"/>
-      <rect x="142" y="148" width="14" height="2" fill="#1a1a5a" opacity=".8"/>
-      <!-- Carvão vegetal 0.1/1.2 -->
-      <rect x="184" y="148" width="14" height="2" fill="#4a9a4a" opacity=".8"/>
-      <rect x="200" y="138" width="14" height="12" fill="#1a1a5a" opacity=".8"/>
-      <!-- Lenha 73.6/71.9 -->
-      <rect x="242" y="4" width="14" height="146" fill="#4a9a4a" opacity=".8"/>
-      <rect x="258" y="8" width="14" height="142" fill="#1a1a5a" opacity=".8"/>
-      <text x="249" y="18" font-size="8" fill="#444" text-anchor="middle">73.6</text>
-      <text x="265" y="22" font-size="8" fill="#444" text-anchor="middle">71.9</text>
-      <!-- Fezes 0/0 -->
-      <rect x="300" y="148" width="14" height="2" fill="#4a9a4a" opacity=".8"/>
-      <rect x="316" y="148" width="14" height="2" fill="#1a1a5a" opacity=".8"/>
-      <!-- Outro 0.1/0.1 -->
-      <rect x="358" y="146" width="14" height="4" fill="#4a9a4a" opacity=".8"/>
-      <rect x="374" y="146" width="14" height="4" fill="#1a1a5a" opacity=".8"/>
-      <!-- X axis -->
-      <line x1="0" y1="150" x2="480" y2="150" stroke="#ccc" stroke-width="1"/>
-      <!-- Labels -->
-      <text x="25" y="162" font-size="7.5" fill="#666" text-anchor="middle">Electr.</text>
-      <text x="83" y="162" font-size="7.5" fill="#666" text-anchor="middle">Gás</text>
-      <text x="141" y="162" font-size="7.5" fill="#666" text-anchor="middle">Petróleo</text>
-      <text x="199" y="162" font-size="7.5" fill="#666" text-anchor="middle">Carvão</text>
-      <text x="257" y="162" font-size="7.5" fill="#666" text-anchor="middle">Lenha</text>
-      <text x="315" y="162" font-size="7.5" fill="#666" text-anchor="middle">Fezes</text>
-      <text x="373" y="162" font-size="7.5" fill="#666" text-anchor="middle">Outro</text>
-      <!-- Legend -->
-      <rect x="0" y="174" width="10" height="10" fill="#4a9a4a" opacity=".8"/>
-      <text x="14" y="183" font-size="9" fill="#555">IOF 2019/20</text>
-      <rect x="90" y="174" width="10" height="10" fill="#1a1a5a" opacity=".8"/>
-      <text x="104" y="183" font-size="9" fill="#555">IOF 2022</text>
-    </svg>
-    <div style="position:absolute;bottom:52px;left:44px;font-size:9px;color:#888"><strong>Fonte:</strong> Inquérito de Orçamento Familiar (2022/23)</div>
-  </div>
-
-  <!-- ── SLIDE 4: METODOLOGIA ── -->
-  <div class="slide" id="s4">
-    <div class="s-title">Metodologia</div>
-    <div class="s-subtitle">5 Fases</div>
-    <div class="fases-bg"></div>
-    <div class="fases-row">
-      <!-- Fase 01: diamond (light) -->
-      <div class="fase-col">
-        <div class="fase-diamond" style="margin-bottom:8px">
-          <div class="fase-diamond-inner"></div>
-          <div class="fase-diamond-text" style="font-size:11px;font-weight:800;color:#FF6B00;text-align:center">Fase 01</div>
-        </div>
-        <div class="fase-check">✓</div>
-        <div class="fase-desc">Preparação dos conteúdos</div>
-      </div>
-      <div class="fase-connector" style="margin-top:10px"></div>
-      <!-- Fase 02: circle (full orange) -->
-      <div class="fase-col">
-        <div class="fase-circle" style="background:#FF6B00;margin-bottom:8px">Fase 02</div>
-        <div class="fase-check">✓</div>
-        <div class="fase-desc">Desenvolvimento do Aplicativo: EduGalp</div>
-      </div>
-      <div class="fase-connector" style="margin-top:10px"></div>
-      <!-- Fase 03: circle (full orange) -->
-      <div class="fase-col">
-        <div class="fase-circle" style="background:#FF6B00;margin-bottom:8px">Fase 03</div>
-        <div class="fase-check">✓</div>
-        <div class="fase-desc">Sessões de Workshops</div>
-      </div>
-      <div class="fase-connector" style="margin-top:10px"></div>
-      <!-- Fase 04: circle (full orange) -->
-      <div class="fase-col">
-        <div class="fase-circle" style="background:#FF6B00;margin-bottom:8px">Fase 04</div>
-        <div class="fase-check">✓</div>
-        <div class="fase-desc">Realização de Quizzes através da app</div>
-      </div>
-      <div class="fase-connector" style="margin-top:10px"></div>
-      <!-- Fase 05: diamond (light) -->
-      <div class="fase-col">
-        <div class="fase-diamond" style="margin-bottom:8px">
-          <div class="fase-diamond-inner"></div>
-          <div class="fase-diamond-text" style="font-size:11px;font-weight:800;color:#FF6B00;text-align:center">Fase 05</div>
-        </div>
-        <div class="fase-check">✓</div>
-        <div class="fase-desc">Reconhecimento: Emissão de Certificados Digitais</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── SLIDE 5: METAS ── -->
-  <div class="slide" id="s5">
-    <div class="s-title">Metas</div>
-    <div class="metas-row">
-      <!-- 4 Escolas: diamond light -->
-      <div class="meta-item">
-        <div class="meta-shape-diamond">
-          <div class="meta-diamond-bg"></div>
-          <div class="meta-diamond-text">4<br><span style="font-size:13px;font-weight:700">Escolas</span></div>
-        </div>
-        <div class="meta-check">✓</div>
-      </div>
-      <!-- 2 Sessões: circle full orange -->
-      <div class="meta-item">
-        <div class="meta-shape-circle" style="background:#FF6B00">2 Sessões<br><span style="font-size:13px;font-weight:600">por Escola</span></div>
-        <div class="meta-check">✓</div>
-      </div>
-      <!-- 120 estudantes: diamond light -->
-      <div class="meta-item">
-        <div class="meta-shape-diamond">
-          <div class="meta-diamond-bg"></div>
-          <div class="meta-diamond-text">120<br><span style="font-size:11px;font-weight:700">estudantes<br>por sessão</span></div>
-        </div>
-        <div class="meta-check">✓</div>
-      </div>
-      <!-- 480 estudantes: circle full orange -->
-      <div class="meta-item">
-        <div class="meta-shape-circle" style="background:#FF6B00">480<br><span style="font-size:13px;font-weight:600">Estudantes<br>alcançados</span></div>
-        <div class="meta-check">✓</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── SLIDE 6: RESULTADOS ── -->
-  <div class="slide" id="s6">
-    <div class="s-title">Resultados Esperados</div>
-    <ul class="result-bullets">
-      <li>Futuros colaboradores da Galp com conhecimento base de sustentabilidade</li>
-      <li>Maior envolvimento da comunidade escolar em práticas sustentáveis.</li>
-      <li>Aumento do consumo de gás – Galp</li>
-    </ul>
-    <!-- growth diagram -->
-    <div id="growth-diagram">
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
-        <div class="growth-box" style="background:#FF6B00;color:#fff;width:110px;min-height:70px">
-          <div style="font-size:24px;font-weight:900">480</div>
-          <div style="font-size:10px;font-weight:600">estudantes<br>alcançados</div>
-        </div>
-        <div style="font-size:22px;color:#FBCFB0">→</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <div class="growth-box" style="background:#FBCFB0;color:#FF6B00;width:100px;padding:8px 12px;font-size:11px">2° ano</div>
-            <div class="growth-box" style="background:#fff;border:1.5px solid #ddd;color:#333;width:110px;min-height:60px">
-              <div style="font-size:20px;font-weight:900;color:#333">960</div>
-              <div style="font-size:10px">estudantes<br>alcançados</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div class="growth-box" style="background:#FBCFB0;color:#FF6B00;width:100px;padding:8px 12px;font-size:11px">3° ano</div>
-            <div class="growth-box" style="background:#fff;border:1.5px solid #ddd;color:#333;width:110px;min-height:60px">
-              <div style="font-size:20px;font-weight:900;color:#333">1440</div>
-              <div style="font-size:10px">estudantes<br>alcançados</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="font-size:9px;color:#aaa;text-align:center">1° Ano</div>
-    </div>
-    <div class="quote-box">
-      Investir na educação dos jovens é garantir um futuro energético consciente, inclusivo e sustentável.
-    </div>
-  </div>
-
-  <!-- ── SLIDE 7: APP QR ── -->
-  <div class="slide" id="s7">
-    <div class="qr-title" style="top:64px">Aceda a App <span>EduGalp</span> através do QR Code</div>
-    <div class="qr-wrap">
-      <!-- Simplified QR pattern via SVG -->
-      <svg width="200" height="200" viewBox="0 0 200 200" style="background:#FF6B00;padding:10px;border-radius:6px">
-        <!-- corner squares -->
-        <rect x="10" y="10" width="50" height="50" rx="4" fill="#000"/>
-        <rect x="18" y="18" width="34" height="34" rx="2" fill="#FF6B00"/>
-        <rect x="24" y="24" width="22" height="22" rx="1" fill="#000"/>
-        <rect x="140" y="10" width="50" height="50" rx="4" fill="#000"/>
-        <rect x="148" y="18" width="34" height="34" rx="2" fill="#FF6B00"/>
-        <rect x="154" y="24" width="22" height="22" rx="1" fill="#000"/>
-        <rect x="10" y="140" width="50" height="50" rx="4" fill="#000"/>
-        <rect x="18" y="148" width="34" height="34" rx="2" fill="#FF6B00"/>
-        <rect x="24" y="154" width="22" height="22" rx="1" fill="#000"/>
-        <!-- center logo placeholder -->
-        <rect x="72" y="72" width="56" height="56" rx="6" fill="#fff"/>
-        <text x="100" y="92" text-anchor="middle" font-size="8" font-weight="700" fill="#FF6B00">edu</text>
-        <text x="100" y="102" text-anchor="middle" font-size="8" font-weight="700" fill="#FF6B00">galp</text>
-        <!-- random dots -->
-        <rect x="72" y="10" width="8" height="8" fill="#000"/><rect x="84" y="10" width="8" height="8" fill="#000"/>
-        <rect x="72" y="20" width="16" height="8" fill="#000"/><rect x="96" y="10" width="8" height="8" fill="#000"/>
-        <rect x="108" y="20" width="8" height="8" fill="#000"/><rect x="120" y="10" width="8" height="16" fill="#000"/>
-        <rect x="10" y="72" width="8" height="8" fill="#000"/><rect x="10" y="84" width="16" height="8" fill="#000"/>
-        <rect x="10" y="96" width="8" height="8" fill="#000"/><rect x="20" y="108" width="8" height="8" fill="#000"/>
-        <rect x="10" y="120" width="16" height="8" fill="#000"/>
-        <rect x="148" y="72" width="8" height="24" fill="#000"/><rect x="160" y="80" width="16" height="8" fill="#000"/>
-        <rect x="160" y="96" width="8" height="8" fill="#000"/><rect x="148" y="108" width="20" height="8" fill="#000"/>
-        <rect x="148" y="120" width="8" height="8" fill="#000"/><rect x="160" y="120" width="16" height="8" fill="#000"/>
-        <rect x="72" y="148" width="8" height="8" fill="#000"/><rect x="84" y="160" width="8" height="8" fill="#000"/>
-        <rect x="96" y="148" width="16" height="8" fill="#000"/><rect x="108" y="160" width="8" height="16" fill="#000"/>
-        <rect x="120" y="148" width="8" height="8" fill="#000"/><rect x="132" y="160" width="8" height="8" fill="#000"/>
-        <rect x="140" y="148" width="8" height="8" fill="#000"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- ── SLIDE 8: ORÇAMENTO ── -->
-  <div class="slide" id="s8">
-    <div class="s-title">Orçamento anual</div>
-    <!-- donut chart -->
-    <div class="orc-donut">
-      <svg width="260" height="260" viewBox="0 0 260 260">
-        <!-- donut segments: 38% Coffee Break, 23% Equip, 17% App, 12% Premiação, 6% Transp, 5% Comunic -->
-        <!-- circumference at r=90: 565.5 -->
-        <circle cx="130" cy="130" r="90" fill="none" stroke="#FBCFB0" stroke-width="44" stroke-dasharray="214.9 350.6" stroke-dashoffset="0" transform="rotate(-90 130 130)"/>
-        <circle cx="130" cy="130" r="90" fill="none" stroke="#FF8844" stroke-width="44" stroke-dasharray="130.1 435.4" stroke-dashoffset="-214.9" transform="rotate(-90 130 130)"/>
-        <circle cx="130" cy="130" r="90" fill="none" stroke="#DD4400" stroke-width="44" stroke-dasharray="96.1 469.4" stroke-dashoffset="-345" transform="rotate(-90 130 130)"/>
-        <circle cx="130" cy="130" r="90" fill="none" stroke="#FF6B00" stroke-width="44" stroke-dasharray="67.9 497.6" stroke-dashoffset="-441.1" transform="rotate(-90 130 130)"/>
-        <circle cx="130" cy="130" r="90" fill="none" stroke="#FFAA66" stroke-width="44" stroke-dasharray="33.9 531.6" stroke-dashoffset="-509" transform="rotate(-90 130 130)"/>
-        <circle cx="130" cy="130" r="90" fill="none" stroke="#CC3300" stroke-width="44" stroke-dasharray="28.3 537.2" stroke-dashoffset="-542.9" transform="rotate(-90 130 130)"/>
-        <!-- center text -->
-        <text x="130" y="122" text-anchor="middle" font-size="24" font-weight="900" fill="#FF6B00">4200 €</text>
-        <text x="130" y="140" text-anchor="middle" font-size="11" fill="#888">336000 mts</text>
-        <!-- labels -->
-        <text x="56" y="82" font-size="9" font-weight="700" fill="#888">38%</text>
-        <text x="192" y="110" font-size="9" font-weight="700" fill="#888">23%</text>
-        <text x="195" y="155" font-size="9" font-weight="700" fill="#888">17%</text>
-        <text x="168" y="208" font-size="9" font-weight="700" fill="#888">12%</text>
-        <text x="86" y="220" font-size="9" font-weight="700" fill="#888">6%</text>
-        <text x="55" y="180" font-size="9" font-weight="700" fill="#888">5%</text>
-      </svg>
-      <!-- legend -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:10px;color:#555;margin-top:-10px">
-        <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:2px;background:#FBCFB0;flex-shrink:0"></div>Aplicativo</div>
-        <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:2px;background:#FF8844;flex-shrink:0"></div>Equipamento técnico</div>
-        <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:2px;background:#DD4400;flex-shrink:0"></div>Kit de Premiação</div>
-        <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:2px;background:#FF6B00;flex-shrink:0"></div>Comunicação</div>
-        <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:2px;background:#FFAA66;flex-shrink:0"></div>Transporte</div>
-        <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:2px;background:#CC3300;flex-shrink:0"></div>Coffe Break</div>
-      </div>
-    </div>
-    <!-- table -->
-    <div class="orc-table">
-      <table>
-        <thead><tr><th>Recurso</th><th>Valor(€)</th><th>Valor(Mzn)</th></tr></thead>
-        <tbody>
-          <tr><td>Desenvolvimento da App</td><td>700</td><td>57 400</td></tr>
-          <tr class="hl"><td>Equipamento Técnico</td><td>950</td><td>77 000</td></tr>
-          <tr><td>Kit de Premiação</td><td>500</td><td>40 400</td></tr>
-          <tr class="hl"><td>Comunicação/Marketing</td><td>200</td><td>16 000</td></tr>
-          <tr><td>Deslocação</td><td>250</td><td>20 000</td></tr>
-          <tr class="hl"><td>Coffee Break</td><td>1 550</td><td>125 000</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <div id="footer">
-    <div id="footer-copy">©2025 Galp  |  Projecto EduGalp</div>
-    <div id="footer-pg" id="pgnum"></div>
+  <!-- PANEL -->
+  <div id="panel">
+    <div id="ey"></div>
+    <div id="ti"></div>
+    <div id="su"></div>
+    <div id="slot"></div>
+    <button class="cta" id="ctab"><span id="ctxt">Começar</span> <span class="ca">→</span></button>
   </div>
 
   <!-- NAV -->
-  <div id="nav">
-    <button class="narr" id="pb" onclick="go(-1)" disabled>←</button>
+  <div id="bnav">
+    <button class="na" id="pb" onclick="go(-1)" disabled>←</button>
     <div id="dw"></div>
-    <button class="narr" id="nb" onclick="go(1)">→</button>
+    <button class="na" id="nb" onclick="go(1)">→</button>
   </div>
-  <div id="prog"><div id="pfill" style="width:11.1%"></div></div>
+  <div id="pg"><div id="pf"></div></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
+'use strict';
 // ─────────────────────────────────────────────────────
-// THREE.JS — cinematic 3D environment
+// RENDERER
 // ─────────────────────────────────────────────────────
-const W=innerWidth,H=innerHeight;
-const renderer=new THREE.WebGLRenderer({canvas:document.getElementById('cv'),antialias:true,alpha:true});
-renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.setClearColor(0xF2E8DC,1);
-renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=0.92;
+const renderer=new THREE.WebGLRenderer({canvas:document.getElementById('cv'),antialias:true});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setClearColor(0xF8F6F2,1);
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=0.90;
 renderer.physicallyCorrectLights=true;
 
 const scene=new THREE.Scene();
-scene.fog=new THREE.Fog(0xF2E8DC,20,80);
-const camera=new THREE.PerspectiveCamera(44,W/H,0.05,200);
+scene.fog=new THREE.Fog(0xF8F6F2,18,78);
+const camera=new THREE.PerspectiveCamera(44,innerWidth/innerHeight,.05,200);
 
-// camera spring state
+// camera spring
 const cam={pos:new THREE.Vector3(0,1,14),look:new THREE.Vector3(0,0,0),fov:44,dp:new THREE.Vector3(0,1,14),dl:new THREE.Vector3(0,0,0),df:44};
 camera.position.copy(cam.pos);
 
-// ── LIGHTS ──────────────────────────────────────────
-scene.add(new THREE.HemisphereLight(0xFFEDD4,0xFFD8A8,2.2));
-const key=new THREE.DirectionalLight(0xFFF5E8,1.8);
-key.position.set(6,12,8);key.castShadow=true;
-key.shadow.mapSize.set(2048,2048);key.shadow.camera.left=-20;key.shadow.camera.right=20;
-key.shadow.camera.top=18;key.shadow.camera.bottom=-18;key.shadow.bias=-0.0004;key.shadow.radius=4;
+// ─────────────────────────────────────────────────────
+// LIGHTS — cinematic warm
+// ─────────────────────────────────────────────────────
+scene.add(new THREE.HemisphereLight(0xFFEDD4,0xFFD8B8,2.4));
+const key=new THREE.DirectionalLight(0xFFFAF0,1.8);
+key.position.set(7,13,7);key.castShadow=true;
+key.shadow.mapSize.set(2048,2048);
+key.shadow.camera.left=-18;key.shadow.camera.right=18;
+key.shadow.camera.top=18;key.shadow.camera.bottom=-18;
+key.shadow.bias=-.0004;key.shadow.normalBias=.02;key.shadow.radius=4;
 scene.add(key);
-const rim=new THREE.PointLight(0xFF7722,1.2,35);rim.position.set(-8,4,-6);scene.add(rim);
-const fill=new THREE.PointLight(0xFFCC88,0.8,30);fill.position.set(8,-2,8);scene.add(fill);
+const rim=new THREE.PointLight(0xFF6622,1.4,40);rim.position.set(-9,4,-7);scene.add(rim);
+const fill=new THREE.PointLight(0xFFBB77,1.0,32);fill.position.set(7,-3,9);scene.add(fill);
+const bounce=new THREE.PointLight(0xFF8833,.6,18);bounce.position.set(0,-5,2);scene.add(bounce);
 
-// ── GROUND ──────────────────────────────────────────
-const gnd=new THREE.Mesh(new THREE.PlaneGeometry(100,100),
-  new THREE.MeshStandardMaterial({color:0xEFDFC8,roughness:0.95,metalness:0.0}));
-gnd.rotation.x=-Math.PI/2;gnd.position.y=-5.5;gnd.receiveShadow=true;scene.add(gnd);
-const grid=new THREE.GridHelper(80,50,0xFFAA66,0xFFD4B0);
-grid.position.y=-5.48;grid.material.opacity=0.08;grid.material.transparent=true;scene.add(grid);
+// ─────────────────────────────────────────────────────
+// GROUND
+// ─────────────────────────────────────────────────────
+const gnd=new THREE.Mesh(new THREE.PlaneGeometry(100,100),new THREE.MeshStandardMaterial({color:0xEFEAE0,roughness:.92,metalness:.02}));
+gnd.rotation.x=-Math.PI/2;gnd.position.y=-6;gnd.receiveShadow=true;scene.add(gnd);
+const grid=new THREE.GridHelper(80,50,0xFF9944,0xDDD0BC);
+grid.position.y=-5.98;grid.material.opacity=.1;grid.material.transparent=true;scene.add(grid);
 
-// ── HELPERS ──────────────────────────────────────────
+// ─────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────
 const lerp=(a,b,t)=>a+(b-a)*t;
-const lv=(v,d,t)=>{v.x=lerp(v.x,d.x,t);v.y=lerp(v.y,d.y,t);v.z=lerp(v.z,d.z,t);};
+const lv=(v,d,t)=>{v.x=lerp(v.x,d.x,t);v.y=lerp(v.y,d.y,t);v.z=lerp(v.z,d.z,t)};
 const rnd=(a,b)=>a+(b-a)*Math.random();
 function pbr(col,rough,metal,emit,emitI=0){
   const m=new THREE.MeshStandardMaterial({color:col,roughness:rough,metalness:metal});
@@ -668,124 +201,300 @@ function pbr(col,rough,metal,emit,emitI=0){
 }
 const mk=(g,m)=>{const o=new THREE.Mesh(g,m);o.castShadow=true;o.receiveShadow=true;return o;};
 
-// ── EARTH GLOBE ──────────────────────────────────────
-const globeG=new THREE.Group();scene.add(globeG);globeG.position.set(4,0,0);
-globeG.add(mk(new THREE.SphereGeometry(3,64,64),pbr(0x2055885,0.1,0.2)));
-function land(lat,lon,sz,col=0x2a6a1a){
+// ─────────────────────────────────────────────────────
+// EARTH GLOBE
+// ─────────────────────────────────────────────────────
+const globeG=new THREE.Group();scene.add(globeG);globeG.position.set(3.8,0,0);
+globeG.add(mk(new THREE.SphereGeometry(3,72,72),pbr(0x0a2840,.08,.25)));
+function land(lat,lon,sz,col=0x1e4a1e){
   const phi=(90-lat)*Math.PI/180,theta=(lon+180)*Math.PI/180,R=3.02;
-  const m=mk(new THREE.SphereGeometry(sz,8,8),pbr(col,0.9,0));
+  const m=mk(new THREE.SphereGeometry(sz,10,10),pbr(col,.9,0));
   m.position.set(-R*Math.sin(phi)*Math.cos(theta),R*Math.cos(phi),R*Math.sin(phi)*Math.sin(theta));
   globeG.add(m);
 }
-[[7,20,.9],[0,28,.75],[-12,25,.8],[-25,28,.75],[15,35,.6],[2,38,.5],[-5,15,.65],[20,15,.65],[-32,26,.55]].forEach(([a,b,s])=>land(a,b,s));
-[[48,8,.5],[52,18,.45],[40,2,.4]].forEach(([a,b,s])=>land(a,b,s,0x2d7a2d));
-[[35,85,.8],[45,105,.85],[25,105,.7]].forEach(([a,b,s])=>land(a,b,s,0x257025));
-[[40,-100,.85],[20,-90,.7],[-10,-55,.8],[55,-105,.8]].forEach(([a,b,s])=>land(a,b,s,0x287828));
-// Moçambique beacon
+[[7,20,.95],[0,28,.8],[-12,25,.85],[-25,28,.8],[15,35,.65],[2,38,.55],[-5,15,.7],[20,15,.7],[-32,26,.6]].forEach(([a,b,s])=>land(a,b,s));
+[[48,8,.55],[52,18,.5],[40,2,.45]].forEach(([a,b,s])=>land(a,b,s,0x224a22));
+[[35,85,.85],[45,105,.9],[25,105,.75]].forEach(([a,b,s])=>land(a,b,s,0x1e421e));
+[[40,-100,.9],[20,-90,.75],[-10,-55,.85],[55,-105,.85]].forEach(([a,b,s])=>land(a,b,s,0x1e4820));
 const phi0=(90+18)*Math.PI/180,th0=(35+180)*Math.PI/180,R0=3.03;
-const mzMat=pbr(0xFF6B00,0.3,0.1,0xFF4400,0.6);
-const mzDot=mk(new THREE.SphereGeometry(0.18,12,12),mzMat);
-mzDot.position.set(-R0*Math.sin(phi0)*Math.cos(th0),R0*Math.cos(phi0),R0*Math.sin(phi0)*Math.sin(th0));
-globeG.add(mzDot);
-// atmosphere
-globeG.add(mk(new THREE.SphereGeometry(3.14,32,32),new THREE.MeshStandardMaterial({color:0x88BBDD,transparent:true,opacity:0.06,side:THREE.BackSide})));
-// equator ring
-const eqR=mk(new THREE.TorusGeometry(3.16,0.025,8,80),pbr(0xFF6B00,0.2,0.4,0xFF5500,0.25));
+const mzM=pbr(0xFF6B00,.35,.1,0xFF4400,.65);
+const mzD=mk(new THREE.SphereGeometry(.2,14,14),mzM);
+mzD.position.set(-R0*Math.sin(phi0)*Math.cos(th0),R0*Math.cos(phi0),R0*Math.sin(phi0)*Math.sin(th0));
+globeG.add(mzD);
+globeG.add(mk(new THREE.SphereGeometry(3.15,36,36),new THREE.MeshStandardMaterial({color:0x1a3a55,transparent:true,opacity:.08,side:THREE.BackSide})));
+const eqR=mk(new THREE.TorusGeometry(3.18,.03,8,90),pbr(0xFF6B00,.1,.3,0xFF5500,.75));
 eqR.rotation.x=Math.PI/2;globeG.add(eqR);
+const latR=mk(new THREE.TorusGeometry(3.4,.015,6,80),pbr(0x888888,.3,.85));
+latR.rotation.x=Math.PI/3;globeG.add(latR);
 
-// ── SOLAR PANEL ──────────────────────────────────────
-const solarG=new THREE.Group();scene.add(solarG);solarG.visible=false;
-solarG.add(mk(new THREE.BoxGeometry(4,2.5,0.1),pbr(0x8888AA,0.25,0.88)));
-const glassMat=new THREE.MeshStandardMaterial({color:0x1a2a44,roughness:0.04,metalness:0.05,transparent:true,opacity:0.82,emissive:new THREE.Color(0x0a1828),emissiveIntensity:0.07});
-solarG.add(mk(new THREE.BoxGeometry(3.7,2.2,0.06),glassMat));
-for(let r=0;r<3;r++)for(let c=0;c<4;c++){
-  solarG.add(mk(new THREE.BoxGeometry(0.78,0.62,0.04),pbr(0x0d1e35,0.05,0.1,0x1a3a55,0.1))).position.set(-1.35+c*.9,-0.65+r*.68,0.06);
+// ─────────────────────────────────────────────────────
+// HYPER-REALISTIC GAS CYLINDER (Galp LPG bottle)
+// ─────────────────────────────────────────────────────
+const cylG=new THREE.Group();scene.add(cylG);cylG.visible=false;
+
+// Body — white cream enamel
+const bodyMat=new THREE.MeshStandardMaterial({color:0xF0EDE8,roughness:.18,metalness:.05,envMapIntensity:1});
+// Main cylinder body
+const body=mk(new THREE.CylinderGeometry(1.05,1.05,4.2,64),bodyMat);
+cylG.add(body);
+// Bottom dome
+const bDome=mk(new THREE.SphereGeometry(1.05,32,32,0,Math.PI*2,0,Math.PI/2),bodyMat);
+bDome.rotation.x=Math.PI;bDome.position.y=-2.1;cylG.add(bDome);
+// Top dome
+const tDome=mk(new THREE.SphereGeometry(1.05,32,32,0,Math.PI*2,0,Math.PI/2),bodyMat);
+tDome.position.y=2.1;cylG.add(tDome);
+
+// Collar / shoulder ring — brushed steel
+const collarMat=pbr(0x999999,.2,.92);
+const collar=mk(new THREE.CylinderGeometry(.88,.88,.32,48),collarMat);
+collar.position.y=2.42;cylG.add(collar);
+
+// Valve head — brushed steel
+const valveMat=pbr(0xAAAAAA,.15,.95);
+const valveBase=mk(new THREE.CylinderGeometry(.35,.42,.28,32),valveMat);
+valveBase.position.y=2.9;cylG.add(valveBase);
+const valveStem=mk(new THREE.CylinderGeometry(.18,.22,.38,24),valveMat);
+valveStem.position.y=3.22;cylG.add(valveStem);
+const valveCap=mk(new THREE.SphereGeometry(.2,20,20),pbr(0x888888,.12,.95));
+valveCap.position.y=3.42;cylG.add(valveCap);
+// Valve handle — orange metal
+const handleMat=pbr(0xFF5500,.2,.7,0xFF4400,.06);
+for(let i=0;i<2;i++){
+  const h=mk(new THREE.BoxGeometry(.08,.4,.55),handleMat);
+  h.position.set(i===0?-.22:.22,3.18,0);cylG.add(h);
 }
-mk(new THREE.CylinderGeometry(0.05,0.07,2.6,10),pbr(0x777788,0.4,0.85)).position.set(0,-2.2,0);
-solarG.position.set(4,0.5,0);solarG.rotation.x=-0.15;
+const hCross=mk(new THREE.BoxGeometry(.6,.08,.08),handleMat);
+hCross.position.y=3.36;cylG.add(hCross);
 
-// ── WIND TURBINE ─────────────────────────────────────
+// Bottom foot ring — steel
+const footMat=pbr(0x777777,.3,.85);
+const foot=mk(new THREE.CylinderGeometry(1.08,.95,.22,48),footMat);
+foot.position.y=-2.5;cylG.add(foot);
+const footRing=mk(new THREE.TorusGeometry(1.08,.06,12,48),footMat);
+footRing.rotation.x=Math.PI/2;footRing.position.y=-2.6;cylG.add(footRing);
+
+// Orange band / label area — Galp orange
+const bandMat=new THREE.MeshStandardMaterial({color:0xFF6B00,roughness:.35,metalness:.05});
+const band=mk(new THREE.CylinderGeometry(1.065,1.065,1.1,64),bandMat);
+band.position.y=.3;cylG.add(band);
+
+// Top orange accent ring
+const topBand=mk(new THREE.CylinderGeometry(1.065,1.065,.18,64),bandMat);
+topBand.position.y=1.9;cylG.add(topBand);
+
+// Specular highlight strip
+const specMat=new THREE.MeshStandardMaterial({color:0xFFFFFF,roughness:.02,metalness:.3,transparent:true,opacity:.18,emissive:new THREE.Color(0xFFFFFF),emissiveIntensity:.08});
+const spec=mk(new THREE.CylinderGeometry(.72,.72,3.2,8),specMat);
+spec.position.set(-.62,0,0);cylG.add(spec);
+
+// Shadow catcher disc under cylinder
+const shadow=mk(new THREE.CylinderGeometry(1.4,1.4,.02,48),new THREE.MeshStandardMaterial({color:0x0a0a18,roughness:1,metalness:0,transparent:true,opacity:.55}));
+shadow.position.y=-2.75;cylG.add(shadow);
+
+cylG.position.set(3.8,0,0);
+
+// ─────────────────────────────────────────────────────
+// SOLAR PANEL
+// ─────────────────────────────────────────────────────
+const solarG=new THREE.Group();scene.add(solarG);solarG.visible=false;
+const frameMat=pbr(0x888899,.25,.88);
+solarG.add(mk(new THREE.BoxGeometry(4.2,2.6,.1),frameMat));
+const glassMat=new THREE.MeshStandardMaterial({color:0x1a2a44,roughness:.03,metalness:.05,transparent:true,opacity:.82,emissive:new THREE.Color(0x0a1828),emissiveIntensity:.08});
+const pg=mk(new THREE.BoxGeometry(3.9,2.3,.06),glassMat);pg.position.z=.04;solarG.add(pg);
+for(let r=0;r<3;r++)for(let c=0;c<5;c++){
+  const cm=mk(new THREE.BoxGeometry(.7,.68,.04),pbr(0x0d1e35,.05,.1,0x1a3a55,.1));
+  cm.position.set(-1.4+c*.76,-.7+r*.72,.07);solarG.add(cm);
+  const ref=mk(new THREE.BoxGeometry(.55,.03,.02),pbr(0x6699bb,.02,.9,0x4488aa,.35));
+  ref.position.set(-1.4+c*.76,-.4+r*.72,.09);solarG.add(ref);
+}
+mk(new THREE.CylinderGeometry(.05,.07,2.8,12),pbr(0x666677,.4,.85)).position.set(0,-2.4,0);solarG.add(solarG.children[solarG.children.length-1]);
+mk(new THREE.CylinderGeometry(.55,.65,.18,24),pbr(0x555566,.5,.8)).position.set(0,-3.85,0);solarG.add(solarG.children[solarG.children.length-1]);
+solarG.position.set(3.8,.5,0);solarG.rotation.x=-.15;
+
+// ─────────────────────────────────────────────────────
+// WIND TURBINE
+// ─────────────────────────────────────────────────────
 const turbG=new THREE.Group();scene.add(turbG);turbG.visible=false;
-turbG.add(mk(new THREE.CylinderGeometry(0.08,0.16,5.2,14),pbr(0xCCCCCC,0.35,0.65)));
-const nac=mk(new THREE.BoxGeometry(0.6,0.35,0.4),pbr(0xDDDDDD,0.3,0.65));nac.position.y=2.5;turbG.add(nac);
-const hub=mk(new THREE.SphereGeometry(0.14,12,12),pbr(0xBBBBBB,0.2,0.75));hub.position.set(0,2.5,0.22);turbG.add(hub);
-const bladesG=new THREE.Group();bladesG.position.set(0,2.5,0.22);turbG.add(bladesG);turbG.userData.blades=bladesG;
+turbG.add(mk(new THREE.CylinderGeometry(.09,.18,5.5,16),pbr(0xCCCCCC,.35,.7)));
+const nac=mk(new THREE.BoxGeometry(.65,.38,.45),pbr(0xDDDDDD,.3,.7));nac.position.y=2.65;turbG.add(nac);
+const hub=mk(new THREE.SphereGeometry(.16,14,14),pbr(0xBBBBBB,.2,.8));hub.position.set(0,2.65,.24);turbG.add(hub);
+const bladesG=new THREE.Group();bladesG.position.set(0,2.65,.24);turbG.add(bladesG);turbG.userData.blades=bladesG;
 for(let i=0;i<3;i++){
   const bl=new THREE.Group();
-  const bg=new THREE.BoxGeometry(0.09,1.85,0.05);bg.translate(0,0.93,0);
-  bl.add(mk(bg,pbr(0xEEEEEE,0.28,0.35)));
-  const tip=mk(new THREE.BoxGeometry(0.05,0.18,0.05),pbr(0xFF6B00,0.2,0.25,0xFF5500,0.15));tip.position.y=1.88;bl.add(tip);
+  const bg=new THREE.BoxGeometry(.1,1.9,.05);bg.translate(0,.95,0);
+  bl.add(mk(bg,pbr(0xEEEEEE,.28,.4)));
+  const tip=mk(new THREE.BoxGeometry(.06,.2,.05),pbr(0xFF6B00,.2,.3,0xFF5500,.2));tip.position.y=1.95;bl.add(tip);
   bl.rotation.z=i*Math.PI*2/3;bladesG.add(bl);
 }
-turbG.position.set(4,0.5,0);
+mk(new THREE.CylinderGeometry(.5,.6,.2,24),pbr(0x888888,.5,.6)).position.y=-2.9;turbG.add(turbG.children[turbG.children.length-1]);
+turbG.position.set(3.8,.5,0);
 
-// ── LEAVES ───────────────────────────────────────────
-const leafG=new THREE.Group();scene.add(leafG);leafG.visible=false;
-function buildLeaf(sc,col,ox,oy,oz){
-  const g=new THREE.Group();
-  const lg=new THREE.SphereGeometry(1,16,12);lg.scale(1,2.1,0.2);
-  g.add(mk(lg,pbr(col,0.65,0,col,0.04)));
-  mk(new THREE.CylinderGeometry(0.02,0.03,1.85,8),pbr(0x1a3a1a,0.7,0)).position.y=0;g.add(g.children[g.children.length-1]);
-  mk(new THREE.CylinderGeometry(0.02,0.02,0.7,8),pbr(0x5a3a1a,0.8,0)).position.y=-1.27;g.add(g.children[g.children.length-1]);
-  g.scale.setScalar(sc);g.position.set(ox,oy,oz);leafG.add(g);
+// ─────────────────────────────────────────────────────
+// ICOSAHEDRON (cover / metas accent)
+// ─────────────────────────────────────────────────────
+const icoG=new THREE.Group();scene.add(icoG);icoG.visible=false;
+const ico=mk(new THREE.IcosahedronGeometry(1.4,1),new THREE.MeshStandardMaterial({color:0xFF6B00,roughness:.08,metalness:.92,emissive:new THREE.Color(0xFF4400),emissiveIntensity:.15}));
+icoG.add(ico);
+const icoWire=mk(new THREE.IcosahedronGeometry(1.42,1),new THREE.MeshBasicMaterial({color:0xFF9944,wireframe:true,transparent:true,opacity:.12}));
+icoG.add(icoWire);
+const icoRing=mk(new THREE.TorusGeometry(1.9,.018,8,80),pbr(0xFF6B00,.1,.3,0xFF5500,.4));
+icoRing.rotation.x=Math.PI/3;icoG.add(icoRing);
+icoG.position.set(3.8,0,0);
+
+// ─────────────────────────────────────────────────────
+// WATER SURFACE
+// ─────────────────────────────────────────────────────
+const waterG=new THREE.Group();scene.add(waterG);waterG.visible=false;
+const waterMat=new THREE.MeshStandardMaterial({color:0x0a2035,roughness:.02,metalness:.1,transparent:true,opacity:.88,emissive:new THREE.Color(0x051020),emissiveIntensity:.18});
+const waterMesh=mk(new THREE.PlaneGeometry(9,6,32,32),waterMat);
+waterMesh.rotation.x=-Math.PI/2;waterG.add(waterMesh);waterG.userData.wm=waterMesh;
+for(let i=0;i<5;i++){
+  const cr=mk(new THREE.TorusGeometry(.3+i*.4,.015,6,40),new THREE.MeshStandardMaterial({color:0xFF8833,transparent:true,opacity:.07-i*.01,emissive:new THREE.Color(0xFF4400),emissiveIntensity:.25}));
+  cr.rotation.x=-Math.PI/2;cr.position.set(rnd(-3,3),.02,rnd(-2,2));cr.userData.pi=i;waterG.add(cr);
 }
-buildLeaf(1.0,0x2a6a1a,0,0,0);buildLeaf(0.65,0x3a7a2a,1.3,-0.4,0.3);buildLeaf(0.55,0x226018,-1.1,-0.7,-0.2);
-leafG.position.set(4,0.5,0);
+waterG.position.set(3.8,-1.5,0);
 
-// ── BAR CHART (budget) ───────────────────────────────
+// ─────────────────────────────────────────────────────
+// BAR CHART (budget visual)
+// ─────────────────────────────────────────────────────
 const chartG=new THREE.Group();scene.add(chartG);chartG.visible=false;
-[[3.6,0xFF6B00],[2.2,0xFF8844],[1.6,0xDD4400],[1.15,0xFFAA66],[0.55,0xFFCC88],[0.48,0xCC3300]].forEach(([h,col],i)=>{
-  const b=mk(new THREE.BoxGeometry(0.4,h,0.4),pbr(col,0.12,0.85,col,0.08));
-  b.position.set(-1.8+i*0.76,h/2-5.5,0);chartG.add(b);
-  const cap=mk(new THREE.BoxGeometry(0.41,0.04,0.41),new THREE.MeshStandardMaterial({color:col,emissive:new THREE.Color(col),emissiveIntensity:0.2}));
-  cap.position.set(-1.8+i*0.76,h-5.5,0);chartG.add(cap);
+[[3.7,0xFF6B00],[2.3,0xFF8833],[1.7,0xFFAA44],[1.2,0xFF5500],[.6,0xFF7700],[.5,0xFFCC44]].forEach(([h,c],i)=>{
+  const b=mk(new THREE.BoxGeometry(.42,h,.42),new THREE.MeshStandardMaterial({color:c,roughness:.12,metalness:.88,emissive:new THREE.Color(c),emissiveIntensity:.1}));
+  b.position.set(-1.9+i*.8,h/2-5.5,0);chartG.add(b);
+  const cap=mk(new THREE.BoxGeometry(.43,.04,.43),new THREE.MeshStandardMaterial({color:c,emissive:new THREE.Color(c),emissiveIntensity:.22}));
+  cap.position.set(-1.9+i*.8,h-5.5,0);chartG.add(cap);
 });
-mk(new THREE.BoxGeometry(5.2,0.05,1.0),pbr(0xDDD0C0,0.7,0.2)).position.set(-0.1,-5.48,0);chartG.add(mk);
+mk(new THREE.BoxGeometry(5.6,.06,1.2),pbr(0x1a1a22,.6,.5)).position.set(-.1,-5.47,0);chartG.add(chartG.children[chartG.children.length-1]);
 chartG.position.set(4.5,0,0);
 
-// ── AMBIENT PARTICLES ────────────────────────────────
-const pN=100,pGeo=new THREE.BufferGeometry(),pPos=new Float32Array(pN*3),pVel=[];
-for(let i=0;i<pN;i++){pPos[i*3]=rnd(-12,12);pPos[i*3+1]=rnd(-4,5);pPos[i*3+2]=rnd(-8,4);pVel.push({x:rnd(-.003,.003),y:.002+Math.random()*.004,z:rnd(-.002,.002)});}
+// ─────────────────────────────────────────────────────
+// AMBIENT PARTICLES
+// ─────────────────────────────────────────────────────
+const pN=120,pGeo=new THREE.BufferGeometry(),pPos=new Float32Array(pN*3),pVel=[];
+for(let i=0;i<pN;i++){pPos[i*3]=rnd(-14,14);pPos[i*3+1]=rnd(-5,6);pPos[i*3+2]=rnd(-9,4);pVel.push({x:rnd(-.004,.004),y:.002+Math.random()*.005,z:rnd(-.003,.003)});}
 pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
-scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xFF8833,size:0.04,transparent:true,opacity:0.18,depthWrite:false})));
+scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xFF7700,size:.045,transparent:true,opacity:.28,depthWrite:false,sizeAttenuation:true})));
 
-// ── CAMERA CONFIGS ───────────────────────────────────
-// Right side of screen = 3D; left side = UI panels
-const CAM=[
-  {p:[0,0.8,14],l:[0,0,0],f:44},   // cover - globe centered
-  {p:[1.2,0.5,11],l:[4,0,0],f:38}, // context - zoom earth
-  {p:[0,1,13],l:[4,0.5,0],f:42},   // objetivos
-  {p:[-0.8,0.6,12],l:[4,0,0],f:40},// impacto
-  {p:[0,0.8,13],l:[4,0,0],f:42},   // metodologia
-  {p:[0.6,1,13],l:[4,0.5,0],f:40}, // metas
-  {p:[-0.5,0.5,12],l:[4,-0.3,0],f:42},// resultados
-  {p:[0,0.5,12],l:[0,0,0],f:44},   // app
-  {p:[-0.6,0.8,12],l:[4.5,-1.5,0],f:44},// orcamento
+// ─────────────────────────────────────────────────────
+// SLIDE DATA — exact PPTX content
+// ─────────────────────────────────────────────────────
+const SLIDES=[
+{ey:'',ti:'EDU\nGALP',su:'Formação para o Futuro — educação para a sustentabilidade nas escolas de Moçambique.',cta:'Começar',
+ html:null,obj:{globe:true},cam:{p:[0,.8,14],l:[0,0,0],f:44}},
+
+{ey:'CONTEXTUALIZAÇÃO',ti:'O FUTURO\nCOMEÇA HOJE',su:'65% dos estudantes consideram as gasolineiras altamente poluentes — uma oportunidade para a Galp se posicionar como líder de sustentabilidade.',cta:'Objetivos',
+ html:`<div class="dprow">
+  <div class="dp"><div class="dn">65%</div><div class="dl">Consideram poluentes</div></div>
+  <div class="dp"><div class="dn">Galp</div><div class="dl">Líder sustentabilidade</div></div>
+ </div>`,obj:{globe:true},cam:{p:[1.4,.4,10.5],l:[3.8,0,0],f:36}},
+
+{ey:'OBJETIVOS',ti:'4 TEMAS DE\nSUSTENTABILIDADE',su:'Promover a consciencialização dos jovens estudantes e mensurar o nível de assimilação dos conteúdos.',cta:'Metodologia',
+ html:`<div class="tgrid">
+  <div class="ti2"><div class="tn2">01</div><div class="tt2">Gestão de Resíduos</div></div>
+  <div class="ti2"><div class="tn2">02</div><div class="tt2">Carvão vs Gás</div></div>
+  <div class="ti2"><div class="tn2">03</div><div class="tt2">Energias Renováveis</div></div>
+  <div class="ti2"><div class="tn2">04</div><div class="tt2">Consumo Responsável de Água</div></div>
+ </div>`,obj:{solar:true},cam:{p:[0,1,12],l:[3.8,.5,0],f:42}},
+
+{ey:'IMPACTO NA BUSINESS UNIT',ti:'MERCADO\nDE GÁS',su:'',cta:'Metodologia',
+ html:`<div class="impacto-item">Aumento no consumo de Gás – GPL</div>
+ <div class="impacto-item" style="margin-bottom:20px">Galp como líder de mercado em termos de práticas sustentáveis e consciencialização juvenil</div>
+ <div class="cbar-row"><span class="cbar-lbl">Lenha</span><div class="cbar-track"><div class="cbar-fill" data-w="74" style="background:linear-gradient(90deg,#FF4400,#FF8800)"></div></div><span class="cbar-val">73.6%</span></div>
+ <div class="cbar-row"><span class="cbar-lbl">Carvão vegetal</span><div class="cbar-track"><div class="cbar-fill" data-w="22" style="background:linear-gradient(90deg,#FF6B00,#FFAA00)"></div></div><span class="cbar-val">21.4%</span></div>
+ <div class="cbar-row"><span class="cbar-lbl">Petróleo/Parafina</span><div class="cbar-track"><div class="cbar-fill" data-w="4" style="background:linear-gradient(90deg,#FF8833,#FFCC44)"></div></div><span class="cbar-val">3.8%</span></div>
+ <div class="cbar-row"><span class="cbar-lbl">Gás</span><div class="cbar-track"><div class="cbar-fill" data-w="1" style="background:#FF6B00"></div></div><span class="cbar-val">0.9%</span></div>
+ <div style="font-size:10px;color:rgba(255,255,255,.22);margin-top:8px">Fonte: Inquérito de Orçamento Familiar (2022/23)</div>`,
+ obj:{cylinder:true},cam:{p:[-.5,.6,12],l:[3.8,0,0],f:40}},
+
+{ey:'METODOLOGIA',ti:'JORNADA EM\n5 FASES',su:'',cta:'Metas',
+ html:`<div class="plist">
+  <div class="pi"><div class="pn">01</div><div class="pt">Preparação dos conteúdos</div></div>
+  <div class="pi"><div class="pn">02</div><div class="pt">Desenvolvimento do Aplicativo EduGalp</div></div>
+  <div class="pi"><div class="pn">03</div><div class="pt">Sessões de Workshops nas escolas</div></div>
+  <div class="pi"><div class="pn">04</div><div class="pt">Realização de Quizzes através da app</div></div>
+  <div class="pi"><div class="pn">05</div><div class="pt">Reconhecimento: Emissão de Certificados Digitais</div></div>
+ </div>`,obj:{turbine:true},cam:{p:[-.5,.8,12],l:[3.8,.5,0],f:42}},
+
+{ey:'METAS',ti:'ALCANCE DO\nPROGRAMA',su:'Impacto concreto e mensurável nas comunidades escolares de Moçambique.',cta:'Resultados',
+ html:`<div class="mrow">
+  <div class="mc"><div class="mn">4</div><div class="ml">Escolas</div></div>
+  <div class="mc"><div class="mn">2</div><div class="ml">Sessões<br>por Escola</div></div>
+  <div class="mc"><div class="mn">120</div><div class="ml">Estudantes<br>por sessão</div></div>
+  <div class="mc"><div class="mn">480</div><div class="ml">Estudantes<br>alcançados</div></div>
+ </div>`,obj:{ico:true},cam:{p:[.6,1,13],l:[3.8,.2,0],f:40}},
+
+{ey:'RESULTADOS ESPERADOS',ti:'O IMPACTO\nCRIADO',su:'"Investir na educação dos jovens é garantir um futuro energético consciente, inclusivo e sustentável."',cta:'App',
+ html:`<div class="rlist">
+  <div class="ri"><div class="rt">Maior envolvimento da comunidade escolar</div><div class="rd">Práticas sustentáveis disseminadas nas escolas e comunidades de Moçambique.</div></div>
+  <div class="ri"><div class="rt">Aumento do consumo de gás — Galp</div><div class="rd">Galp consolidada como líder de mercado em sustentabilidade juvenil.</div></div>
+  <div class="ri"><div class="rt">Crescimento anual: 480 → 960 → 1440</div><div class="rd">Estudantes alcançados do 1° ao 3° ano de programa.</div></div>
+ </div>`,obj:{water:true},cam:{p:[-.5,.5,12],l:[3.8,-.3,0],f:42}},
+
+{ey:'APP EDUGALP',ti:'ACEDA PELO\nQR CODE',su:'Escaneie o código QR Code para aceder à aplicação EduGalp.',cta:'Orçamento',
+ html:`<div style="width:140px;height:140px;background:#FF6B00;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:#fff">edu</div>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:#fff">galp</div>
+  <div style="font-size:9px;color:rgba(255,255,255,.6);letter-spacing:1px">scan me</div>
+ </div>`,obj:{globe:true},cam:{p:[0,.8,14],l:[0,0,0],f:44}},
+
+{ey:'ORÇAMENTO ANUAL',ti:'INVESTIMENTO\n€ 4.200',su:'336.000 MZN / ano — distribuídos por 4 escolas, com cobertura total de 480 estudantes.',cta:'Recomeçar',
+ html:`<div class="bwrap">
+  <div class="brow"><span class="bn">Coffee Break</span><div class="bt"><div class="bf" data-w="37"></div></div><span class="bv">€ 1.550</span></div>
+  <div class="brow"><span class="bn">Equipamento Técnico</span><div class="bt"><div class="bf" data-w="23"></div></div><span class="bv">€ 950</span></div>
+  <div class="brow"><span class="bn">Dev. Aplicativo</span><div class="bt"><div class="bf" data-w="17"></div></div><span class="bv">€ 700</span></div>
+  <div class="brow"><span class="bn">Kit Premiação</span><div class="bt"><div class="bf" data-w="12"></div></div><span class="bv">€ 500</span></div>
+  <div class="brow"><span class="bn">Deslocação</span><div class="bt"><div class="bf" data-w="6"></div></div><span class="bv">€ 250</span></div>
+  <div class="brow"><span class="bn">Comunicação/Mkt</span><div class="bt"><div class="bf" data-w="5"></div></div><span class="bv">€ 200</span></div>
+ </div>`,obj:{chart:true},cam:{p:[-.8,.8,12],l:[4.5,-1.5,0],f:44}},
 ];
 
-const OBJ_VIS=[
-  {globe:true},
-  {globe:true},
-  {solar:true},
-  {leaf:true},
-  {turbine:true},
-  {leaf:true},
-  {globe:true},
-  {},
-  {chart:true},
-];
-const allObjs={globe:globeG,solar:solarG,turbine:turbG,leaf:leafG,chart:chartG};
+const allObjs={globe:globeG,solar:solarG,turbine:turbG,water:waterG,ico:icoG,chart:chartG,cylinder:cylG};
 
-// ── SLIDE MANAGEMENT ─────────────────────────────────
-let cur=0,TOTAL=9,busy=false,flyUsed=false;
+// ─────────────────────────────────────────────────────
+// NAV / SLIDE MANAGEMENT
+// ─────────────────────────────────────────────────────
+let cur=0,TOTAL=SLIDES.length,busy=false,flyUsed=false;
 const cntTs=[];
 const dw=document.getElementById('dw');
 for(let i=0;i<TOTAL;i++){
-  const d=document.createElement('div');d.className='ndot'+(i===0?' on':'');
+  const d=document.createElement('div');d.className='nd'+(i===0?' on':'');
   d.onclick=()=>go(i-cur);dw.appendChild(d);
 }
 
 function stopCnt(){cntTs.forEach(clearInterval);cntTs.length=0;}
+
+function showSlide(n){
+  const s=SLIDES[n];
+  const ey=document.getElementById('ey'),ti=document.getElementById('ti'),su=document.getElementById('su'),slot=document.getElementById('slot');
+  [ey,ti,su,slot].forEach(e=>{e.classList.remove('in');});
+  ey.textContent=s.ey;
+  ti.innerHTML=s.ti.replace('\n','<br>');
+  su.textContent=s.su;
+  slot.innerHTML=s.html||'';
+  stopCnt();document.querySelectorAll('.bf').forEach(b=>b.style.width='0%');
+  document.querySelectorAll('.cbar-fill').forEach(b=>b.style.width='0%');
+  setTimeout(()=>{
+    [ey,ti,su,slot].forEach(e=>e.classList.add('in'));
+    document.querySelectorAll('[data-target]').forEach(el=>{
+      const tgt=+el.getAttribute('data-target');let v=0;const inc=tgt/52;
+      const t=setInterval(()=>{v=Math.min(v+inc,tgt);el.textContent=Math.round(v);if(v>=tgt)clearInterval(t);},1100/52);
+      cntTs.push(t);
+    });
+    if(s.html&&s.html.includes('bf')){
+      setTimeout(()=>document.querySelectorAll('.bf').forEach(b=>b.style.width=b.dataset.w+'%'),350);
+    }
+    if(s.html&&s.html.includes('cbar-fill')){
+      setTimeout(()=>document.querySelectorAll('.cbar-fill').forEach(b=>b.style.width=b.dataset.w+'%'),350);
+    }
+  },80);
+  Object.keys(allObjs).forEach(k=>allObjs[k].visible=!!s.obj[k]);
+  cam.dp.set(...s.cam.p);cam.dl.set(...s.cam.l);cam.df=s.cam.f;
+  document.getElementById('pf').style.width=((n+1)/TOTAL*100)+'%';
+  document.querySelectorAll('.nd').forEach((d,i)=>d.classList.toggle('on',i===n));
+  document.getElementById('pb').disabled=n===0;document.getElementById('nb').disabled=n===TOTAL-1;
+  document.getElementById('ctxt').textContent=s.cta;
+  document.getElementById('ctab').onclick=()=>go(n===TOTAL-1?-(TOTAL-1):1);
+}
 
 function go(delta){
   const next=cur+delta;
@@ -793,32 +502,16 @@ function go(delta){
   busy=true;
   const fade=document.getElementById('fade');
   const fromCover=cur===0&&next===1&&!flyUsed;
-
-  const doSwap=()=>{
-    cur=next;
-    // show/hide slides
-    document.querySelectorAll('.slide').forEach((s,i)=>{s.classList.toggle('active',i===cur);});
-    // 3D objects
-    Object.keys(allObjs).forEach(k=>{allObjs[k].visible=!!OBJ_VIS[cur][k];});
-    // camera
-    cam.dp.set(...CAM[cur].p);cam.dl.set(...CAM[cur].l);cam.df=CAM[cur].f;
-    // nav ui
-    document.getElementById('pfill').style.width=((cur+1)/TOTAL*100)+'%';
-    document.querySelectorAll('.ndot').forEach((d,i)=>d.classList.toggle('on',i===cur));
-    document.getElementById('pb').disabled=cur===0;document.getElementById('nb').disabled=cur===TOTAL-1;
-    document.getElementById('footer-pg').textContent=cur+1;
-  };
-
   if(fromCover){
     flyUsed=true;
-    cam.dp.set(3,0.2,7.5);cam.dl.set(4,0,0);cam.df=26;
+    cam.dp.set(2.8,.2,7.5);cam.dl.set(3.8,0,0);cam.df=26;
     setTimeout(()=>{
-      fade.style.transition='opacity .5s ease';fade.style.opacity='0.96';
-      setTimeout(()=>{doSwap();fade.style.transition='opacity .7s ease';fade.style.opacity='0';setTimeout(()=>{busy=false;},720);},520);
-    },1300);
+      fade.style.transition='opacity .5s ease';fade.style.opacity='.96';
+      setTimeout(()=>{cur=next;showSlide(cur);fade.style.transition='opacity .72s ease';fade.style.opacity='0';setTimeout(()=>busy=false,750);},520);
+    },1250);
   } else {
-    fade.style.transition='opacity .45s ease';fade.style.opacity='0.9';
-    setTimeout(()=>{doSwap();fade.style.transition='opacity .55s ease';fade.style.opacity='0';setTimeout(()=>{busy=false;},580);},470);
+    fade.style.transition='opacity .45s ease';fade.style.opacity='.92';
+    setTimeout(()=>{cur=next;showSlide(cur);fade.style.transition='opacity .56s ease';fade.style.opacity='0';setTimeout(()=>busy=false,580);},460);
   }
 }
 
@@ -827,51 +520,52 @@ let tx=0;
 document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;});
 document.addEventListener('touchend',e=>{const dx=tx-e.changedTouches[0].clientX;if(Math.abs(dx)>60)go(dx>0?1:-1);});
 
-// init 3D objects visibility
-Object.keys(allObjs).forEach(k=>{allObjs[k].visible=!!OBJ_VIS[0][k];});
-cam.dp.set(...CAM[0].p);cam.dl.set(...CAM[0].l);cam.df=CAM[0].f;
-cam.pos.copy(cam.dp);cam.look.copy(cam.dl);cam.fov=cam.df;
-document.getElementById('footer-pg').textContent='1';
-
-// ── RENDER LOOP ───────────────────────────────────────
+// ─────────────────────────────────────────────────────
+// RENDER LOOP
+// ─────────────────────────────────────────────────────
 const clock=new THREE.Clock();let gt=0;
-
 function render(){
   requestAnimationFrame(render);
-  const dt=Math.min(clock.getDelta(),0.05);gt+=dt;
-
-  // camera spring
+  const dt=Math.min(clock.getDelta(),.05);gt+=dt;
   lv(cam.pos,cam.dp,.026);lv(cam.look,cam.dl,.026);
   cam.fov=lerp(cam.fov,cam.df,.026);
   camera.position.copy(cam.pos);camera.fov=cam.fov;
   camera.updateProjectionMatrix();camera.lookAt(cam.look);
 
-  // globe
-  if(globeG.visible){
-    globeG.rotation.y+=.0012;eqR.rotation.z+=.003;
-    mzDot.material.emissiveIntensity=0.35+Math.sin(gt*2.8)*.15;
+  // Globe
+  if(globeG.visible){globeG.rotation.y+=.0012;eqR.rotation.z+=.003;latR.rotation.y+=.004;mzD.material.emissiveIntensity=.3+Math.sin(gt*2.8)*.15;}
+  // Solar
+  if(solarG.visible){solarG.rotation.y=Math.sin(gt*.2)*.05;glassMat.emissiveIntensity=.06+Math.sin(gt*1.5)*.015;}
+  // Turbine
+  if(turbG.visible&&turbG.userData.blades){turbG.userData.blades.rotation.z+=.018;turbG.rotation.y=Math.sin(gt*.14)*.035;}
+  // Cylinder — slow rotation, light reflections
+  if(cylG.visible){cylG.rotation.y+=.005;cylG.position.y=Math.sin(gt*.4)*.08;}
+  // Ico
+  if(icoG.visible){icoG.rotation.y+=.005;icoG.rotation.x+=.002;icoRing.rotation.z+=.007;icoG.position.y=Math.sin(gt*.38)*.1;}
+  // Water
+  if(waterG.visible){
+    const wp=waterG.userData.wm.geometry.attributes.position;
+    for(let i=0;i<wp.count;i++){const x=wp.getX(i),z=wp.getZ(i);wp.setY(i,Math.sin(x*.8+gt*1.2)*.07+Math.cos(z*.9+gt*.8)*.045);}
+    wp.needsUpdate=true;
+    waterG.children.forEach(c=>{if(c.userData.pi!==undefined){c.material.opacity=.04+Math.sin(gt*1.5+c.userData.pi*.8)*.03;c.scale.setScalar(1+Math.sin(gt*.8+c.userData.pi)*.06);}});
   }
-  // solar
-  if(solarG.visible){solarG.rotation.y=Math.sin(gt*.2)*.04;glassMat.emissiveIntensity=.06+Math.sin(gt*1.5)*.015;}
-  // turbine
-  if(turbG.visible&&turbG.userData.blades){turbG.userData.blades.rotation.z+=.016;turbG.rotation.y=Math.sin(gt*.15)*.03;}
-  // leaf
-  if(leafG.visible){leafG.rotation.z=Math.sin(gt*.4)*.025;leafG.rotation.x=Math.sin(gt*.3)*.018;}
-  // chart
-  if(chartG.visible){chartG.children.forEach((c,i)=>{if(i<6)c.scale&&(c.scale.y=1+Math.sin(gt*.5+i*.6)*.01);});}
-
-  // particles
+  // Chart
+  if(chartG.visible){chartG.children.forEach((c,i)=>{if(i<6&&c.scale)c.scale.y=1+Math.sin(gt*.5+i*.6)*.012;});}
+  // Particles
   const fp=pGeo.attributes.position.array;
-  for(let i=0;i<pN;i++){fp[i*3]+=pVel[i].x;fp[i*3+1]+=pVel[i].y;fp[i*3+2]+=pVel[i].z;if(fp[i*3+1]>6){fp[i*3+1]=-4;fp[i*3]=rnd(-12,12);}if(Math.abs(fp[i*3])>14)pVel[i].x*=-1;}
+  for(let i=0;i<pN;i++){fp[i*3]+=pVel[i].x;fp[i*3+1]+=pVel[i].y;fp[i*3+2]+=pVel[i].z;if(fp[i*3+1]>6){fp[i*3+1]=-5;fp[i*3]=rnd(-14,14);}if(Math.abs(fp[i*3])>15)pVel[i].x*=-1;}
   pGeo.attributes.position.needsUpdate=true;
-
-  // lights pulse — very gentle
-  rim.intensity=1.1+Math.sin(gt*.5)*.2;fill.intensity=.7+Math.sin(gt*.4)*.12;
-  grid.position.z=(gt*.1)%1.5;
-
+  // Lights
+  rim.intensity=1.2+Math.sin(gt*.55)*.25;rim.position.x=-9+Math.sin(gt*.18)*2;
+  fill.intensity=.85+Math.sin(gt*.42)*.18;bounce.intensity=.5+Math.sin(gt*.85)*.1;
+  grid.position.z=(gt*.12)%1.5;
   renderer.render(scene,camera);
 }
-render();
+
+// INIT
+cam.dp.set(...SLIDES[0].cam.p);cam.dl.set(...SLIDES[0].cam.l);cam.df=SLIDES[0].cam.f;
+cam.pos.copy(cam.dp);cam.look.copy(cam.dl);cam.fov=cam.df;
+showSlide(0);render();
 
 window.addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();});
 </script>
